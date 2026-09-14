@@ -1073,17 +1073,533 @@ const novels = [
 
     ];
 
-   const homePage =
-        document.getElementById("homePage");
+function renderNovels(category = "all") {
 
-    const detailPage =
-        document.getElementById("detailPage");
+    const grid = document.getElementById("novelGrid");
 
-    const storyPage =
-        document.getElementById("storyPage");
+    if (!grid) {
+        return;
+    }
 
-    const novelGrid =
-        document.getElementById("novelGrid");
+    grid.innerHTML = "";
 
-          
-                
+    const filteredNovels =
+    category === "all"
+        ? novels
+        : novels.filter(
+            novel =>
+                novel.category === category
+        );
+
+    if (filteredNovels.length === 0) {
+
+        grid.innerHTML = `
+            <div class="empty-message">
+                ဒီအမျိုးအစားမှာ ဝတ္ထုမရှိသေးပါ။
+            </div>
+        `;
+
+        return;
+    }
+
+    filteredNovels.forEach(novel => {
+
+        const card = document.createElement("div");
+
+        card.className = "novel-card";
+
+        card.onclick = () => {
+            openNovel(novel.id);
+        };
+
+        card.innerHTML = `
+
+            <div class="novel-image-wrapper">
+
+                <img
+                    class="novel-image"
+                    src="${novel.image}"
+                    alt="${novel.name}"
+                    draggable="false"
+                >
+
+            </div>
+
+            <div class="novel-info">
+
+                <div class="novel-name">
+                    ${novel.name}
+                </div>
+
+                <div class="novel-caption">
+                    ${novel.caption}
+                </div>
+
+            </div>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+}
+
+function changeCategory(category, button) {
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    renderNovels(category);
+}
+
+function openNovel(id) {
+
+    currentNovel =
+        novels.find(novel => novel.id === id);
+
+    if (!currentNovel) {
+        return;
+    }
+
+    document.getElementById("detail-image").src =
+        currentNovel.image;
+
+    document.getElementById("detail-name").textContent =
+        currentNovel.name;
+
+    document.getElementById("detail-role").textContent =
+        currentNovel.role;
+
+    document.getElementById("detail-summary").textContent =
+        currentNovel.summary;
+
+    document.getElementById("homePage")
+        .classList.add("hidden");
+
+    document.getElementById("detail-page")
+        .classList.remove("hidden");
+
+    document.getElementById("story-page")
+        .classList.add("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    updateTelegramBackButton();
+}
+
+function goHome() {
+
+    document
+        .getElementById("homePage")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("detail-page")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("story-page")
+        .classList.add("hidden");
+
+
+    currentNovel = null;
+
+    currentPart = 1;
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+
+    updateTelegramBackButton();
+
+}
+
+function goDetail() {
+
+    if (!currentNovel) {
+
+        goHome();
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("homePage")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("detail-page")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("story-page")
+        .classList.add("hidden");
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+
+    updateTelegramBackButton();
+
+}
+
+function startReading() {
+
+    if (!currentNovel) {
+
+        return;
+
+    }
+
+
+    currentPart = 1;
+
+
+    renderStory();
+
+
+    document
+        .getElementById("detail-page")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("story-page")
+        .classList.remove("hidden");
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+
+    updateTelegramBackButton();
+
+}
+
+function openPart(partNumber) {
+
+    if (!currentNovel) {
+
+        return;
+
+    }
+
+
+    if (!currentNovel.parts[partNumber]) {
+
+        return;
+
+    }
+
+
+    currentPart = partNumber;
+
+
+    renderStory();
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+function renderStory() {
+
+    if (!currentNovel) {
+
+        return;
+
+    }
+
+
+    const title =
+        document.getElementById("story-title");
+
+
+    const text =
+        document.getElementById("story-text");
+
+
+    if (!title || !text) {
+
+        return;
+
+    }
+
+
+    title.textContent =
+        `Part - ${currentPart}`;
+
+
+    text.textContent =
+        currentNovel.parts[currentPart];
+
+
+    renderStoryNavigation();
+
+}
+
+function renderStoryNavigation() {
+
+
+    const navigation =
+        document.querySelector(".story-navigation");
+
+
+    if (!navigation) {
+
+        return;
+
+    }
+
+
+    navigation.innerHTML = "";
+
+
+
+    // Part 1 → Center Part 2
+
+    if (currentPart === 1) {
+
+
+        const nextButton =
+            createPartButton(
+                "Part - 2",
+                2,
+                "center"
+            );
+
+
+        navigation.appendChild(nextButton);
+
+
+        return;
+
+    }
+
+
+
+
+    // Part 2 → Part 1 + Part 3
+
+    if (currentPart === 2) {
+
+
+        const previousButton =
+            createPartButton(
+                "Part - 1",
+                1,
+                "left"
+            );
+
+
+        const nextButton =
+            createPartButton(
+                "Part - 3",
+                3,
+                "right"
+            );
+
+
+        navigation.appendChild(previousButton);
+
+
+        navigation.appendChild(nextButton);
+
+
+        return;
+
+    }
+
+
+
+
+    // Part 3 → Part 2
+
+    if (currentPart === 3) {
+
+
+        const previousButton =
+            createPartButton(
+                "Part - 2",
+                2,
+                "left"
+            );
+
+
+        navigation.appendChild(previousButton);
+
+
+    }
+
+
+}
+
+function createPartButton(
+    buttonText,
+    partNumber,
+    position
+) {
+
+
+    const button =
+        document.createElement("button");
+
+
+    button.className =
+        `part-button ${position}`;
+
+
+    button.textContent =
+        buttonText;
+
+
+    button.onclick = function() {
+
+        openPart(partNumber);
+
+    };
+
+
+    return button;
+
+}
+
+function updateTelegramBackButton() {
+
+
+    if (!tg || !tg.BackButton) {
+
+        return;
+
+    }
+
+
+
+    const detailVisible =
+        !document
+        .getElementById("detail-page")
+        .classList.contains("hidden");
+
+
+
+    const storyVisible =
+        !document
+        .getElementById("story-page")
+        .classList.contains("hidden");
+
+
+
+
+    if (detailVisible || storyVisible) {
+
+
+        tg.BackButton.show();
+
+
+    } else {
+
+
+        tg.BackButton.hide();
+
+
+    }
+
+}
+
+if (tg && tg.BackButton) {
+
+
+    tg.BackButton.onClick(function() {
+
+
+        const storyVisible =
+            !document
+            .getElementById("story-page")
+            .classList.contains("hidden");
+
+
+
+        const detailVisible =
+            !document
+            .getElementById("detail-page")
+            .classList.contains("hidden");
+
+
+
+
+        if (storyVisible) {
+
+
+            goDetail();
+
+
+
+        } else if (detailVisible) {
+
+
+            goHome();
+
+
+
+        } else {
+
+
+            tg.close();
+
+
+        }
+
+
+    });
+
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+
+        renderNovels("BL");
+
+
+        updateTelegramBackButton();
+
+
+    }
+);
+
+</script>
