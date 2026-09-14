@@ -428,3 +428,230 @@
             transform: translateY(-2px);
 
             box-shadow:
+                0 11px 25px rgba(159, 104, 10, 0.3);
+        }
+
+        .read-button:active {
+            transform: translateY(1px);
+        }
+
+        #storyPage {
+            background: #fffaf0;
+        }
+
+        .story-container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .story-header {
+            text-align: center;
+
+            padding: 10px 0 25px;
+        }
+
+        .story-title {
+            color: #9c6510;
+            font-size: clamp(27px, 7vw, 44px);
+
+            font-weight: 900;
+
+            line-height: 1.35;
+        }
+
+        .story-subtitle {
+            color: #947c5a;
+            font-size: 15px;
+
+            margin-top: 6px;
+        }
+
+        .story-content {
+            background: #ffffff;
+
+            border-radius: 24px;
+
+            padding: clamp(20px, 5vw, 38px);
+
+            border: 1px solid rgba(117, 79, 11, 0.12);
+            box-shadow:
+                0 7px 25px rgba(94, 64, 8, 0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .story-content p {
+            color: #17120e;
+            font-size: clamp(16px, 4vw, 20px);
+
+            line-height: 2;
+
+            text-align: left;
+
+            margin-bottom: 20px;
+        }
+
+        .story-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .story-navigation {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+        .story-navigation.single {
+            grid-template-columns: 1fr;
+        }
+
+        .part-button {
+            border: none;
+            cursor: pointer;
+
+            min-height: 55px;
+            padding: 10px 15px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffe9a8,
+                    #d99b25
+                );
+                color: #4b2c07;
+
+            font-size: 17px;
+            font-weight: 900;
+
+            box-shadow:
+                0 6px 16px rgba(159, 104, 10, 0.18);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .part-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 9px 20px rgba(159, 104, 10, 0.25);
+        }
+
+        .part-button:active {
+            transform: translateY(1px);
+        }
+
+        .part-button.disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 20px 12px 30px;
+            }
+
+            .site-title {
+                margin-top: 5px;
+                margin-bottom: 20px;
+            }
+
+            .category-tabs {
+                gap: 4px;
+                padding: 5px;
+            }
+
+            .category-btn {
+                min-height: 50px;
+                padding: 6px 4px;
+                font-size: 13px;
+            }
+
+            .novel-grid {
+                gap: 12px;
+            }
+
+            .novel-card {
+                padding: 8px;
+                border-radius: 20px;
+            }
+
+            .novel-image-wrapper {
+                border-radius: 14px;
+            }
+
+            .novel-info {
+                padding: 10px 3px 6px;
+            }
+
+            .detail-image-wrapper {
+                aspect-ratio: 4 / 5;
+                border-radius: 22px;
+            }
+
+            .summary-box {
+                padding: 18px;
+                border-radius: 20px;
+            }
+
+            .story-content {
+                padding: 18px;
+                border-radius: 20px;
+            }
+
+            .story-navigation {
+                gap: 8px;
+            }
+
+            .part-button {
+                font-size: 15px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 380px) {
+
+            .novel-grid {
+                gap: 9px;
+            }
+
+            .novel-card {
+                padding: 6px;
+            }
+
+            .category-btn {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="app">
+
+    <!-- =========================================================
+         HOME PAGE
+    ========================================================== -->
+
+    <section id="homePage" class="page">
+
+       <div class="container">
+
+           <h1 class="site-title">
+                <span class="title-win">ဝင်း</span><span
+                    class="title-htet">ထက်</span><span
+                    class="title-novel">ဝတ္ထု</span><span
+                    class="title-many">များ</span>
+            </h1>
+
+
+
