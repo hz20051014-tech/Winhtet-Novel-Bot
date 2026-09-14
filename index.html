@@ -6,6 +6,8 @@
 
     <title>ဝင်းထက်ဝတ္ထုများ</title>
 
+
+
     <style>
         /* =========================================================
            GLOBAL
@@ -653,5 +655,270 @@
                     class="title-many">များ</span>
             </h1>
 
+            <div class="category-wrapper">
+
+                <div class="category-tabs">
+
+                    <button
+                        class="category-btn active"
+                        data-category="BL"
+                        onclick="changeCategory('BL', this)">
+
+                        BL ဝတ္ထုများ
+                    </button>
+
+                    <button
+                        class="category-btn"
+                        data-category="GL"
+                        onclick="changeCategory('GL', this)"
+                    >
+                        GL ဝတ္ထုများ
+                    </button>
+
+                    <button
+                        class="category-btn"
+                        data-category="Normal"
+                        onclick="changeCategory('Normal', this)"
+                    >
+                        Normal ဝတ္ထုများ
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div id="novelGrid" class="novel-grid"></div>
+
+        </div>
+
+    </section>
+
+<!-- DETAIL PAGE -->
+
+   <section id="detail-page" class="page hidden">
+
+       <div class="detail-container">
 
 
+        <!-- Back Button -->
+
+           <button 
+               class="back-button"
+               onclick="goHome()"
+           >
+               ←နောက်သို့
+           </button>
+
+
+
+        <!-- Character / Novel Image -->
+
+           <div class="detail-image-box">
+
+               <img 
+                   id="detail-image"
+                   class="detail-image"
+                   src="https://placehold.co/600x800"
+                   alt="Novel Image"
+               >
+
+           </div>
+
+
+
+        <!-- Name -->
+
+           <h1 
+               id="detail-name"
+               class="detail-name"
+           >
+           </h1>
+
+
+
+        <!-- Role -->
+
+           <p 
+               id="detail-role"
+               class="detail-role"
+           >
+           </p>
+
+
+
+        <!-- Story Summary -->
+
+           <div class="summary-box">
+
+
+               <h2 class="summary-title">
+                   ဇာတ်လမ်းအကျဉ်း
+               </h2>
+
+
+               <p 
+                   id="detail-summary"
+                   class="summary-text"
+               >
+               </p>
+
+
+           </div>
+
+
+
+
+        <!-- Start Reading Button -->
+
+           <div class="read-button-wrapper">
+
+
+               <button
+                   class="read-button"
+                   onclick="startReading()"
+               >
+                   ဖတ်ရှုမယ်
+               </button>
+
+
+           </div>
+
+
+
+       </div>
+
+
+   </section>
+
+
+<!-- STORY READER PAGE -->
+
+   <section id="story-page" class="page hidden">
+
+
+       <div class="story-container">
+
+
+           <button 
+               class="back-button"
+               onclick="goDetail()"
+           >
+               ←နောက်သို့
+           </button>
+
+
+           <header class="story-header">
+
+               <h1
+                   id="storyTitle"
+                   class="story-title"
+               ></h1>
+               <div
+                   id="storySubtitle"
+                   class="story-subtitle"
+               ></div>
+
+           </header>
+
+
+
+
+        <!-- Story Content -->
+
+            <article
+                id="storyContent"
+                class="story-content"
+            ></article>
+
+
+        <!-- Story Navigation -->
+
+            <div
+                id="storyNavigation"
+                class="story-navigation"
+            ></div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   TELEGRAM MINI APP
+========================================= */
+
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+
+    tg.ready();
+
+    if (typeof tg.expand === "function") {
+        tg.expand();
+    }
+
+    if (typeof tg.setHeaderColor === "function") {
+        tg.setHeaderColor("#fff0c9");
+    }
+
+    if (typeof tg.setBackgroundColor === "function") {
+        tg.setBackgroundColor("#fff4d6");
+    }
+
+    if (typeof tg.setBottomBarColor === "function") {
+        tg.setBottomBarColor("#fff0c9");
+    }
+}
+
+
+/* =========================================
+   CURRENT NOVEL / PART
+========================================= */
+
+let currentNovel = null;
+
+let currentPart = 1;
+
+
+/* =========================================
+   NOVEL DATA
+========================================= */
+
+const novels = [
+
+    {
+        id: 1,
+
+        category: "bl",
+
+        name: "မင်းအတွက်ပဲ အသက်ရှင်မယ်",
+
+        caption: "မင်းကိုချစ်မိတဲ့ Alpha",
+
+        role: "The One Who Lives Only For You",
+
+        image: "https://placehold.co/600x800",
+
+        summary:
+            "သူ့ဘဝတစ်လျှောက်လုံးမှာ ချစ်ခြင်းမေတ္တာကို မယုံကြည်ခဲ့သူတစ်ယောက်။ " +
+            "ဒါပေမယ့် သူ့ဘဝထဲကို မမျှော်လင့်ဘဲ ဝင်ရောက်လာတဲ့သူတစ်ယောက်ကြောင့် " +
+            "အရာအားလုံး ပြောင်းလဲသွားခဲ့သည်။",
+
+        parts: {
+
+            1: `
+Part - 1
+
+ဒီနေရာမှာ သင့်ရဲ့ Part - 1
+ဇာတ်လမ်းစာသားအပြည့်အစုံကို
+ထည့်နိုင်ပါတယ်။
+
+ဇာတ်လမ်းစာသားများကို ဒီနေရာမှာ
+ရေးသားပေးရမှာ ဖြစ်ပါတယ်။
+            `,
+
+  
