@@ -1059,11 +1059,11 @@ const homePage =
 
         if (filteredNovels.length === 0) {
 
-            novelGrid.innerHTML = 
-                <div class="empty-message">
-                    ဒီအမျိုးအစားမှာ ဝတ္ထုမရှိသေးပါ။
-                </div>
-            ;
+            novelGrid.innerHTML = `
+    <div class="empty-message">
+        ဒီအမျိုးအစားမှာ ဝတ္ထုမရှိသေးပါ။
+    </div>
+`;
 
             return;
         }
@@ -1086,7 +1086,7 @@ const homePage =
                     alt="${escapeHTML(novel.name)}"
                     loading="lazy"
                 >
-                <divided class="image-overlay"></div>
+                <div class="image-overlay"></div>
 
             </div>
 
